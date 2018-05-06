@@ -1,16 +1,17 @@
 import React from "react";
-import movies from './movie';
+//import movies from './movie';
+import { API_KEY_3 } from "../utils";
 import MovieItem from "./MoveItem";
 
 function LikeCounts({ likeCounts }) {
     return (
-        <p>Количество лайков: {likeCounts}</p>
+        <p className="alert alert-primary">Количество лайков: {likeCounts}</p>
     )
 }
 
 function FavouriteMoves(props) {
     return (
-        <p>Количество любимых фильмов: {props.favouriteMoves}</p>
+        <p className="alert alert-warning">Количество любимых фильмов: {props.favouriteMoves}</p>
     )
 }
 
@@ -36,12 +37,33 @@ class App extends React.Component{
         super();
 
         this.state ={
-            movies: movies,
+            movies: [],
             likeCounts: 0,
             favouriteMoves: 0,
             favouriteMovesSidebar: []
         }
     }
+
+    componentDidMount() {
+        this.getMoviesByType(this.props.type);
+    }
+
+    getMoviesByType = type => {
+        this.setState({
+            isLoading: true
+        });
+        fetch(
+            `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY_3}&language=en-US&region=ru&page=1`
+        )
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                this.setState({
+                    movies: data.results,
+                    isLoading: false
+                });
+            });
+    };
 
     // Like Functions
     increaseLike = () =>{

@@ -63,7 +63,7 @@ class MovieItem extends  React.Component {
                 <React.Fragment>
                     <img
                     className="card-img-top"
-                    src={this.props.item.backdrop_path || this.props.item.poster_path}
+                    src={`https://image.tmdb.org/t/p/w500${this.props.item.backdrop_path || this.props.item.poster_path}`}
                     alt={this.props.item.title} />
                 </React.Fragment>
             )
@@ -85,7 +85,7 @@ class MovieItem extends  React.Component {
         const hideShow = () =>{
             return (
                 <React.Fragment>
-                    <button onClick={() => {
+                    <button className="btn btn-info" onClick={() => {
                         this.setState({
                             showOverview: !this.state.showOverview
                         })
@@ -97,22 +97,29 @@ class MovieItem extends  React.Component {
         const {addFavourite, removeFavourite} = this;
 
         return (
-            <div className="card" style={{width: "100%"}}>
+            <div className={this.state.favourite ? "card text-white bg-warning": "card"} style={{width: "100%"}}>
                 {img()}
-                {cardBody()}
-                {hideShow()}
-                {templateOverview()}
-
-                <div style={{marginTop: "15px"}}>
-                    <div className="row">
-                        <div className="col">
-                            {this.state.like  ? <button onClick={this.unLike}>UnLike</button> : <button onClick={ this.addLike.bind(this) }>Like</button>}
-                        </div>
-                        <div className="col text-right">
-                            {this.state.favourite ? <button onClick={removeFavourite}>UnFavourite</button> : <button onClick={addFavourite}>Favourite</button>}
-                        </div>
+                <div className="card-body">
+                    {cardBody()}
+                </div>
+                <div className="card-footer">
+                    {hideShow()}
+                    <div className="d-block">
+                        {templateOverview()}
                     </div>
 
+
+                    <div style={{marginTop: "15px"}}>
+                        <div className="row">
+                            <div className="col">
+                                {this.state.like  ? <button className="btn btn-danger" onClick={this.unLike}>UnLike</button> : <button className="btn btn-success" onClick={ this.addLike.bind(this) }>Like</button>}
+                            </div>
+                            <div className="col text-right">
+                                {this.state.favourite ? <button className="btn btn-link"  onClick={removeFavourite}>UnFavourite</button> : <button className="btn btn-link" onClick={addFavourite}>Favourite</button>}
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         )
