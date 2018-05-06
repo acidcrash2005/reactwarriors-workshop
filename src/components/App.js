@@ -1,6 +1,7 @@
 import React from "react";
-import movies from './movie';
-import MovieItem from "./MoveItem";
+//import movies from './movie';
+import MoveList from "./MoveList";
+import MoveTabs from "./MoveTabs";
 
 function LikeCounts({ likeCounts }) {
     return (
@@ -13,8 +14,8 @@ class App extends React.Component{
         super();
 
         this.state ={
-            movies: movies,
-            likeCounts: 0
+            isLoading: true,
+            type: "upcoming"
         }
     }
 
@@ -29,8 +30,34 @@ class App extends React.Component{
             likeCounts: this.state.likeCounts - 1
         })
     }
+
+    changeTab = tab =>{
+        this.setState({
+            type: tab
+        })
+    }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //   console.log("shouldComponentUpdate");
+    //   console.log("old state", this.state);
+    //   console.log("new state", nextState);
+    //   return true;
+    // }
+
+    // componentWillUpdate(nextProps, nextState) {
+    //   console.log("componentWillUpdate");
+    //   console.log("old state", this.state);
+    //   console.log("new state", nextState);
+    // }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //   console.log("componentDidUpdate");
+    //   console.log("old state", prevState);
+    //   console.log("new state", this.state);
+    // }
+
   render() {
-      const { movies, likeCounts} = this.state;
+      const { likeCounts } = this.state;
       return (
           <div>
               <div className="container">
@@ -39,16 +66,19 @@ class App extends React.Component{
                           <LikeCounts likeCounts={likeCounts} />
                       </div>
                   </div>
-                  <div className="row">
-                      {movies.map( (move, index) => {
-                          return (
-                              <div className="col-4" key={index}>
-                                  {/* В компонент можно передевать функции */}
-                                  <MovieItem item={move} increaseLike={this.increaseLike} decreaseLike={this.decreaseLike} />
-                              </div>
-                          )
-                      })}
+
+                  <div className="row mb-4">
+                      <div className="col-12">
+                          <MoveTabs type={this.state.type} changeTab={this.changeTab} />
+                      </div>
                   </div>
+
+
+                  {/* передавая из одного компонент, в другой, и в другой, когда будет более 15-20, нужен Redux*/}
+                  <MoveList
+                      type={this.state.type}
+                      increaseLike={this.increaseLike}
+                      decreaseLike={this.decreaseLike} />
               </div>
           </div>
       );

@@ -1,5 +1,7 @@
 import React from "react";
 
+
+
 class MovieItem extends  React.Component {
     constructor(){
         super();
@@ -40,7 +42,7 @@ class MovieItem extends  React.Component {
             <div className="card" style={{width: "100%"}}>
                 <img
                     className="card-img-top"
-                    src={this.props.item.backdrop_path || this.props.item.poster_path}
+                    src={`https://image.tmdb.org/t/p/w500${this.props.item.backdrop_path || this.props.item.poster_path}`}
                     alt={this.props.item.title}
                 />
                 <div className="card-body">
