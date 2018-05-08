@@ -15,7 +15,8 @@ class App extends React.Component{
 
         this.state ={
             isLoading: true,
-            type: "upcoming"
+            type: "upcoming",
+            likeCounts: 0
         }
     }
 
