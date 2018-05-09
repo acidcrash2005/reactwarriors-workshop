@@ -2,6 +2,8 @@ import React from "react";
 //import movies from './movie';
 import MoveList from "./MoveList";
 import MoveTabs from "./MoveTabs";
+import Page404 from "./Page404";
+import { BrowserRouter, Route, Link, NavLink, Switch } from 'react-router-dom'
 
 function LikeCounts({ likeCounts }) {
     return (
@@ -70,16 +72,28 @@ class App extends React.Component{
 
                   <div className="row mb-4">
                       <div className="col-12">
-                          <MoveTabs type={this.state.type} changeTab={this.changeTab} />
+                          <MoveTabs  /> {/*type={this.state.type} changeTab={this.changeTab}*/}
                       </div>
                   </div>
 
 
                   {/* передавая из одного компонент, в другой, и в другой, когда будет более 15-20, нужен Redux*/}
-                  <MoveList
-                      type={this.state.type}
-                      increaseLike={this.increaseLike}
-                      decreaseLike={this.decreaseLike} />
+                  <Switch>
+                      <Route
+                          path='/now_playing'
+                          render={(props) => <MoveList {...props} type="now_playing"  increaseLike={this.increaseLike} decreaseLike={this.decreaseLike}/>}
+                      />
+                      <Route
+                          path='/upcoming'
+                          render={(props) => <MoveList {...props} type="upcoming"  increaseLike={this.increaseLike} decreaseLike={this.decreaseLike}/>}
+                      />
+                      <Route
+                          path='/popular'
+                          render={(props) => <MoveList {...props} type="popular"  increaseLike={this.increaseLike} decreaseLike={this.decreaseLike}/>}
+                      />
+                      <Route render={()=><Page404 text="Error 404! Page not found!" />}
+                      />
+                  </Switch>
               </div>
           </div>
       );
